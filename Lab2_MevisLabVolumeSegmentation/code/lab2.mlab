@@ -1,0 +1,206 @@
+// MDL v1 utf8
+network  {
+  watchlist = ""
+}
+module OrthoView2D {
+  internal  {
+    frame = "621 5 120 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "619 199 400 430"
+        sizeHint = "400 430"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = OrthoView2D3
+    inventorInputOn = TRUE
+    inventorOutputOn = FALSE
+    synchronizePosition = TRUE
+    layout = LAYOUT_CUBE_EQUAL
+    filterMode = FILTER_LINEAR
+    synchronizeZoom = TRUE
+    synchronizePanning = FALSE
+    useGlobalInputImage = TRUE
+    snapToCenter = FALSE
+    alternCubeLayout = FALSE
+    timePoint = 0
+    useManagedInteraction = FALSE
+    enableSlicing = TRUE
+    borderOn = TRUE
+    borderColor = "0.899999976158142 0.899999976158142 0.899999976158142"
+    grayWidth = 220
+    grayCenter = 110
+    annotationOn = TRUE
+    annotationSizeMode = ANNO_SHOW_DETAILED
+    annotationFontSize = ANNO_SIZE_AUTO
+    valueHighPrecision = TRUE
+    annoCoords = Voxel
+    showCurrentPos = TRUE
+    worldPosition = "76.3775405883789 66.9000015258789 6.47755432128906"
+    coloredMode = FALSE
+    hiResRendering = TRUE
+  }
+}
+module Mask {
+  internal  {
+    frame = "609 109 80 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "514 352 441 124"
+        sizeHint = "353 124"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = Mask1
+    mode = MaskedOriginal
+    outputImageSize = UseSmallestInput
+    blending = 0.5
+    background = 0
+  }
+}
+module DimensionSliceClone {
+  internal  {
+    frame = "789 293 152 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "613 371 154 86"
+        sizeHint = "154 86"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = DimensionSliceClone1
+    dimension = z
+    inputSlice = 40
+    cloneNumber = 100
+  }
+}
+module Threshold {
+  internal  {
+    frame = "821 149 88 72"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "566 267 278 294"
+        sizeHint = "248 294"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = Threshold
+    threshold = 20
+    relativeThreshold = FALSE
+    comparisonOperator = Greater
+    conditionTrueWriteValue = ImgMax
+    userConditionTrueValue = 1
+    conditionFalseWriteValue = ImgMin
+    userConditionFalseValue = 0
+  }
+}
+module OrthoView2D {
+  internal  {
+    frame = "437 5 120 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "208 170 400 430"
+        sizeHint = "400 430"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = OrthoView2D1
+    inventorInputOn = TRUE
+    inventorOutputOn = FALSE
+    synchronizePosition = TRUE
+    layout = LAYOUT_CUBE_EQUAL
+    filterMode = FILTER_LINEAR
+    synchronizeZoom = TRUE
+    synchronizePanning = FALSE
+    useGlobalInputImage = TRUE
+    snapToCenter = FALSE
+    alternCubeLayout = FALSE
+    timePoint = 0
+    useManagedInteraction = FALSE
+    enableSlicing = TRUE
+    borderOn = TRUE
+    borderColor = "0.899999976158142 0.899999976158142 0.899999976158142"
+    grayWidth = 220
+    grayCenter = 110
+    annotationOn = TRUE
+    annotationSizeMode = ANNO_SHOW_DETAILED
+    annotationFontSize = ANNO_SIZE_AUTO
+    valueHighPrecision = TRUE
+    annoCoords = Voxel
+    showCurrentPos = TRUE
+    worldPosition = "98.5346832275391 119.100006103516 18.2418403625488"
+    coloredMode = FALSE
+    hiResRendering = TRUE
+  }
+}
+module MinMaxScan {
+  internal  {
+    frame = "589 317 104 56"
+    moduleGroupName = ""
+  }
+  fields  {
+    instanceName = MinMaxScan
+    updateMode = AutoUpdate
+    typeSelect = "Proposed Data Type"
+    preferredIntType = PreferUnsigned
+  }
+}
+module ImageLoad {
+  internal  {
+    frame = "593 405 96 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "535 236 311 357"
+        sizeHint = "311 357"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = ImageLoad
+    filename = "D:/Education/MS-VIBOT/2/Medical Image Analysis/labs/lab2_abus/t0200217102ar.dcm"
+    autoLoad = TRUE
+    readRaw = FALSE
+    rawX = 1
+    rawY = 1
+    rawZ = 1
+    rawC = 1
+    rawT = 1
+    rawU = 1
+    dataTypeRaw = "unsigned int8"
+    planarConfig = Contiguous
+    byteOrder = LittleEndian
+    dataOffset = 0
+    pageSizeHint = "0 0 0 0 0 0"
+    suppressErrorLog = FALSE
+    dicomIgnoreHalfVoxelShift = FALSE
+    suppressMLImageFormatCheckSumTests = FALSE
+  }
+}
+connections  {
+  OrthoView2D3.image = Mask1.output0
+  Mask1.input0 = MinMaxScan.output0
+  Mask1.input1 = Threshold.output0
+  DimensionSliceClone1.input0 = MinMaxScan.output0
+  Threshold.input0 = DimensionSliceClone1.output0
+  OrthoView2D1.image = MinMaxScan.output0
+  MinMaxScan.input0 = ImageLoad.output0
+}
+networkModel = ""
